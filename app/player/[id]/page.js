@@ -12,15 +12,17 @@ import {
 } from 'lucide-react';
 import { parseLyrics } from '@/lib/lyrics-parser';
 
+// 播放器页面组件
 export default function PlayerPage() {
     const params = useParams();
     const router = useRouter();
+    // 歌曲数据状态
     const [song, setSong] = useState(null);
     const [allSongs, setAllSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // Player state
+    // 播放器状态 (Player state)
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
@@ -28,15 +30,15 @@ export default function PlayerPage() {
     const [showLyrics, setShowLyrics] = useState(false);
     const [volume, setVolume] = useState(0.8);
     const [isMuted, setIsMuted] = useState(false);
-    const [repeatMode, setRepeatMode] = useState('off'); // off, one
+    const [repeatMode, setRepeatMode] = useState('off'); // off, one (单曲循环)
     const [playbackRate, setPlaybackRate] = useState(1);
 
-    // Lyrics state
+    // 歌词状态 (Lyrics state)
     const [lyrics, setLyrics] = useState([]);
     const [showLyricsUpload, setShowLyricsUpload] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
 
-    // UI state
+    // UI 和交互状态 (UI state)
     const [isDragging, setIsDragging] = useState(false);
     const [dragTime, setDragTime] = useState(0);
     const [showSpeedMenu, setShowSpeedMenu] = useState(false);
@@ -45,14 +47,14 @@ export default function PlayerPage() {
     const [queueSearchTerm, setQueueSearchTerm] = useState('');
     const [isImmersive, setIsImmersive] = useState(false);
 
-    // Refs
+    // 引用 (Refs)
     const audioRef = useRef(null);
     const lyricsContainerRef = useRef(null);
     const lyricRefs = useRef([]);
     const immersiveLyricRefs = useRef([]);
     const progressRef = useRef(null);
 
-    // Load saved preferences
+    // 加载保存的偏好设置
     useEffect(() => {
         const savedVolume = localStorage.getItem('playerVolume');
         const savedRate = localStorage.getItem('playbackRate');
@@ -116,14 +118,14 @@ export default function PlayerPage() {
         }
     };
 
-    // Update active lyric index
+    // 更新当前活跃的歌词索引
     useEffect(() => {
         if (lyrics.length === 0) return;
         const index = lyrics.findLastIndex(item => item.time <= currentTime);
         if (index !== activeIndex) setActiveIndex(index);
     }, [currentTime, lyrics, activeIndex]);
 
-    // Scroll to active lyric
+    // 滚动到当前活跃歌词
     useEffect(() => {
         if (activeIndex !== -1) {
             if (showLyrics && lyricRefs.current[activeIndex]) {
@@ -141,14 +143,14 @@ export default function PlayerPage() {
         }
     }, [activeIndex, showLyrics, isImmersive]);
 
-    // Volume sync
+    // 音量同步到 Audio 元素
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.volume = isMuted ? 0 : volume;
         }
     }, [volume, isMuted]);
 
-    // Keyboard shortcuts
+    // 键盘快捷键支持
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.target.tagName === 'INPUT') return;

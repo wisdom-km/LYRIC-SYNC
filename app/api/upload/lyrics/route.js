@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import { validateLyrics } from '@/lib/lyrics-parser';
 
+// POST /api/upload/lyrics - 处理歌词上传和解析
 export async function POST(request) {
     try {
         const user = await getCurrentUser();
@@ -16,7 +17,7 @@ export async function POST(request) {
         let lyricsContent = '';
 
         if (contentType.includes('multipart/form-data')) {
-            // Handle file upload
+            // 处理文件上传形式
             const formData = await request.formData();
             const file = formData.get('lyrics');
 
@@ -29,7 +30,7 @@ export async function POST(request) {
 
             lyricsContent = await file.text();
         } else {
-            // Handle raw text
+            // 处理纯文本内容
             const body = await request.json();
             lyricsContent = body.content;
         }
@@ -41,7 +42,7 @@ export async function POST(request) {
             );
         }
 
-        // Validate and parse lyrics
+        // 验证并解析歌词内容
         const result = validateLyrics(lyricsContent);
 
         if (!result.valid) {

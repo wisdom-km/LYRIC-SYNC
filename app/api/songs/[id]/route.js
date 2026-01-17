@@ -4,7 +4,7 @@ import { getCurrentUser } from '@/lib/auth';
 import fs from 'fs';
 import path from 'path';
 
-// GET /api/songs/[id] - Get a single song
+// GET /api/songs/[id] - 获取单首歌曲详情
 export async function GET(request, { params }) {
     try {
         const user = await getCurrentUser();
@@ -42,7 +42,7 @@ export async function GET(request, { params }) {
     }
 }
 
-// PATCH /api/songs/[id] - Update song lyrics
+// PATCH /api/songs/[id] - 更新歌曲歌词
 export async function PATCH(request, { params }) {
     try {
         const user = await getCurrentUser();
@@ -76,7 +76,7 @@ export async function PATCH(request, { params }) {
     }
 }
 
-// DELETE /api/songs/[id] - Delete a song
+// DELETE /api/songs/[id] - 删除歌曲
 export async function DELETE(request, { params }) {
     try {
         const user = await getCurrentUser();
@@ -97,7 +97,7 @@ export async function DELETE(request, { params }) {
             );
         }
 
-        // Delete audio file
+        // 删除音频文件
         const audioPath = path.join(process.cwd(), 'public', song.audio_path);
         if (fs.existsSync(audioPath)) {
             fs.unlinkSync(audioPath);

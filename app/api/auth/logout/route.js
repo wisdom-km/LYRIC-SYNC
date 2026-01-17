@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { removeAuthCookie } from '@/lib/auth';
 
+// 处理用户登出请求
 export async function POST() {
     try {
         await removeAuthCookie();

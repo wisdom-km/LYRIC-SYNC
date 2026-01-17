@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server';
 import { createUser, getUserByUsername } from '@/lib/db';
 import { hashPassword, createToken, setAuthCookie } from '@/lib/auth';
 
+// 处理用户注册请求
 export async function POST(request) {
     try {
         const { username, password } = await request.json();
 
-        // Validation
+        // 验证请求参数
         if (!username || !password) {
             return NextResponse.json(
                 { error: '用户名和密码不能为空' },
@@ -28,7 +29,7 @@ export async function POST(request) {
             );
         }
 
-        // Check if username exists
+        // 检查用户名是否已存在
         const existingUser = getUserByUsername(username);
         if (existingUser) {
             return NextResponse.json(
@@ -37,7 +38,7 @@ export async function POST(request) {
             );
         }
 
-        // Create user
+        // 创建新用户
         const passwordHash = await hashPassword(password);
         const user = createUser(username, passwordHash);
 
@@ -48,7 +49,7 @@ export async function POST(request) {
             );
         }
 
-        // Create and set token
+        // 创建令牌并设置 Cookie (自动登录)
         const token = createToken(user.id);
         await setAuthCookie(token);
 

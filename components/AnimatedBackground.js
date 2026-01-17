@@ -1,3 +1,4 @@
+// 动态背景组件，包含动画层和渐变遮罩
 export default function AnimatedBackground() {
     return (
         <div className="fixed inset-0 z-0">

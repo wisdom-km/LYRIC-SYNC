@@ -1,3 +1,4 @@
+// 歌曲卡片骨架屏组件，用于加载状态展示
 export default function SongCardSkeleton() {
     return (
         <div className="relative aspect-[4/5] rounded-[1.5rem] overflow-hidden bg-white/5">

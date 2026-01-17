@@ -6,19 +6,24 @@ import Link from 'next/link';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Music, User, Lock, ArrowRight, Loader2 } from 'lucide-react';
 
+// 登录页面组件
 export default function LoginPage() {
     const router = useRouter();
+    // 表单状态
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    // 加载状态，防止重复提交
     const [loading, setLoading] = useState(false);
 
+    // 处理登录表单提交
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setLoading(true);
 
         try {
+            // 调用登录 API
             const res = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -42,8 +47,7 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center p-md">
-            {/* Background */}
-            {/* Background */}
+            {/* 动态背景组件 */}
             <AnimatedBackground />
 
             <div className="card w-full max-w-md relative z-10 animate-fadeIn">

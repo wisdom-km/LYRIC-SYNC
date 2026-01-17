@@ -3,6 +3,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
+// 允许的音频文件类型
 const ALLOWED_TYPES = [
     'audio/mpeg',
     'audio/mp3',
@@ -14,6 +15,7 @@ const ALLOWED_TYPES = [
     'audio/aac',
 ];
 
+// POST /api/upload/audio - 处理音频文件上传
 export async function POST(request) {
     try {
         const user = await getCurrentUser();
@@ -34,7 +36,7 @@ export async function POST(request) {
             );
         }
 
-        // Validate file type
+        // 验证文件类型
         if (!ALLOWED_TYPES.includes(file.type) && !file.name.match(/\.(mp3|wav|ogg|m4a|flac|aac)$/i)) {
             return NextResponse.json(
                 { error: '不支持的音频格式，请上传 MP3, WAV, OGG, M4A, FLAC 或 AAC 文件' },
@@ -44,23 +46,23 @@ export async function POST(request) {
 
 
 
-        // Create user upload directory
+        // 创建用户上传目录
         const uploadDir = path.join(process.cwd(), 'public', 'uploads', String(user.id));
         await mkdir(uploadDir, { recursive: true });
 
-        // Generate unique filename
+        // 生成唯一文件名 (时间戳 + 安全文件名)
         const timestamp = Date.now();
         const ext = path.extname(file.name) || '.mp3';
         const safeName = file.name.replace(/[^a-zA-Z0-9_\u4e00-\u9fa5.-]/g, '_').replace(ext, '');
         const filename = `${timestamp}-${safeName}${ext}`;
         const filepath = path.join(uploadDir, filename);
 
-        // Write file
+        // 写入文件
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
         await writeFile(filepath, buffer);
 
-        // Return relative path for database storage
+        // 返回相对路径用于数据库存储
         const relativePath = `/uploads/${user.id}/${filename}`;
 
         return NextResponse.json({

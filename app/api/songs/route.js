@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSongsByUser, createSong } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth';
 
-// GET /api/songs - Get all songs for current user
+// GET /api/songs - 获取当前用户的所有歌曲
 export async function GET() {
     try {
         const user = await getCurrentUser();
@@ -24,7 +24,7 @@ export async function GET() {
     }
 }
 
-// POST /api/songs - Create a new song entry
+// POST /api/songs - 创建新歌曲记录
 export async function POST(request) {
     try {
         const user = await getCurrentUser();

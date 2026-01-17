@@ -1,14 +1,17 @@
 import { CheckCircle2, XCircle, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+// 提示框组件，用于显示操作反馈
 export default function Toast({ message, type = 'success', onClose, duration = 3000 }) {
+    // 控制显示状态，用于动画效果
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         setIsVisible(true);
+        // 设置定时器自动关闭
         const timer = setTimeout(() => {
             setIsVisible(false);
-            setTimeout(onClose, 300); // Wait for animation
+            setTimeout(onClose, 300); // 等待动画结束
         }, duration);
 
         return () => clearTimeout(timer);
@@ -17,6 +20,7 @@ export default function Toast({ message, type = 'success', onClose, duration = 3
     const isSuccess = type === 'success';
 
     return (
+        // 浮动容器，根据 isVisible 状态切换显示/隐藏动画
         <div
             className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border transition-all duration-300 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                 }`}
@@ -31,6 +35,7 @@ export default function Toast({ message, type = 'success', onClose, duration = 3
                 {isSuccess ? <CheckCircle2 size={16} /> : <XCircle size={16} />}
             </div>
             <p className="text-sm font-medium pr-2">{message}</p>
+            {/* 手动关闭按钮 */}
             <button
                 onClick={() => {
                     setIsVisible(false);

@@ -3,12 +3,13 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+// 首页组件，负责根据登录状态重定向
 export default function Home() {
     const router = useRouter();
 
     useEffect(() => {
-        // Check if user is logged in
-        fetch('/api/songs')
+        // 检查用户登录状态
+        fetch('/api/songs') // 尝试获取歌曲列表作为验证手段
             .then(res => {
                 if (res.ok) {
                     router.replace('/dashboard');

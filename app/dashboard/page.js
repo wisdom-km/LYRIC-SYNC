@@ -10,12 +10,16 @@ import {
     Loader2, X, CheckCircle2, MoreVertical, Search, ArrowUpDown, ArrowUpAZ, ArrowDownZA
 } from 'lucide-react';
 
+// 仪表盘页面组件 (音乐库)
 export default function DashboardPage() {
     const router = useRouter();
+    // 歌曲列表和搜索状态
     const [songs, setSongs] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showSearch, setShowSearch] = useState(false);
     const [sortOrder, setSortOrder] = useState('default'); // 'default' | 'asc' | 'desc'
+
+    // UI 状态
     const [toast, setToast] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showUploadModal, setShowUploadModal] = useState(false);
@@ -24,7 +28,7 @@ export default function DashboardPage() {
     const [deletingId, setDeletingId] = useState(null);
     const [openMenuId, setOpenMenuId] = useState(null);
 
-    // Upload form state
+    // 上传表单状态
     const [audioFile, setAudioFile] = useState(null);
     const [audioPath, setAudioPath] = useState('');
     const [lyricsFile, setLyricsFile] = useState(null);
@@ -36,7 +40,7 @@ export default function DashboardPage() {
         fetchSongs();
     }, []);
 
-    // Close menu when clicking outside
+    // 点击外部关闭菜单
     useEffect(() => {
         const handleClickOutside = () => setOpenMenuId(null);
         if (openMenuId !== null) {
@@ -45,6 +49,7 @@ export default function DashboardPage() {
         }
     }, [openMenuId]);
 
+    // 获取歌曲列表
     const fetchSongs = async () => {
         try {
             const res = await fetch('/api/songs');
@@ -64,11 +69,13 @@ export default function DashboardPage() {
         }
     };
 
+    // 退出登录
     const handleLogout = async () => {
         await fetch('/api/auth/logout', { method: 'POST' });
         router.push('/login');
     };
 
+    // 处理文件拖拽
     const handleDrag = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -79,6 +86,7 @@ export default function DashboardPage() {
         }
     };
 
+    // 处理音频文件上传
     const handleAudioUpload = async (e) => {
         e.preventDefault();
         if (dragActive) setDragActive(false);
@@ -113,6 +121,7 @@ export default function DashboardPage() {
         }
     };
 
+    // 处理歌词文件上传
     const handleLyricsUpload = async (e) => {
         e.preventDefault();
 

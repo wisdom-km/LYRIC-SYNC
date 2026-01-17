@@ -6,18 +6,22 @@ import Link from 'next/link';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Music, User, Lock, ArrowRight, Loader2 } from 'lucide-react';
 
+// 注册页面组件
 export default function RegisterPage() {
     const router = useRouter();
+    // 表单状态
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // 处理注册表单提交
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
+        // 验证两次密码是否一致
         if (password !== confirmPassword) {
             setError('两次输入的密码不一致');
             return;
