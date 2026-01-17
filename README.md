@@ -119,5 +119,5 @@ lyric-sync-web/
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/wisdom-km">wisdom-km</a>
+  Made with ❤️ by <a href="https://github.com/wisdom-km">wisdom-km</a> & <a href="https://deepmind.google/">Antigravity AI</a>
 </p>
